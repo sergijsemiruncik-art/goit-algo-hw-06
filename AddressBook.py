@@ -89,7 +89,7 @@ print(john)  # Виведення: Contact name: John, phones: 1112223333; 55555
 
 # Пошук конкретного телефону у записі John
 found_phone = john.find_phone("5555555555")
-print(f"{john.name}: {found_phone}")  # Виведення: John: 5555555555
+print(f"{john.name}: {found_phone}")
 
 # Видалення запису Jane
 book.delete("Jane")

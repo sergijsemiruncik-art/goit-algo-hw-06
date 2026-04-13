@@ -13,9 +13,10 @@ class Name(Field):
             self.name = name
 
 class Phone(Field):
-    def __init__(self, phone):
+    def __init__(self, phone: str):
         super().__init__(phone)
-        self.phone = phone
+        if not isinstance(phone, str) or len(phone) != 10 or not phone.isdigit():
+            raise ValueError('Phone must be 10 digits')
 
 class Record:
     def __init__(self, name, phone = None):
@@ -26,10 +27,10 @@ class Record:
         self.phones.append(Phone(phone))
 
     def edit_phone(self, old_phone, new_phone):
-        for p in self.phones:
-            if p.value == old_phone:
-                self.phones[self.phones.index(p)] = Phone(new_phone)
-                return True
+        if self.find_phone(old_phone) is not None:
+            self.remove_phone(old_phone)
+            self.add_phone(new_phone)
+            return True
         return False
 
     def find_phone(self, phone):
@@ -37,6 +38,13 @@ class Record:
             if p.value == phone:
                 return p
         return None
+
+    def remove_phone(self, phone: str):
+        found = self.find_phone(phone)
+        if found is not None:
+            self.phones.remove(found)
+            return True
+        return False
 
     def __str__(self):
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
@@ -74,7 +82,7 @@ book.add_record(john_record)
 
 # Створення та додавання нового запису для Jane
 jane_record = Record("Jane")
-jane_record.add_phone("9876543210")
+jane_record.add_phone("1234567890")
 book.add_record(jane_record)
 
 # Виведення всіх записів у книзі

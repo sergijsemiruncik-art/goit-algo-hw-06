@@ -28,8 +28,8 @@ class Record:
 
     def edit_phone(self, old_phone, new_phone):
         if self.find_phone(old_phone) is not None:
-            self.remove_phone(old_phone)
             self.add_phone(new_phone)
+            self.remove_phone(old_phone)
             return True
         return False
 
